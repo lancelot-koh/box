@@ -5,6 +5,7 @@ import 'package:box/pages/home/main_food_page.dart';
 import 'package:box/router/router_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'controllers/cart_controller.dart';
 import 'helper/Dependency.dart' as dep;
 
 Future<void> main() async {
@@ -19,17 +20,22 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    Get.find<PopularProductController>().getPopularProductList();
-    Get.find<RecommendedProductController>().getRecommendedProductList();
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      // home: MainFoodPage(),
-      initialRoute: RouterHelper.getInitial(),
-      getPages: RouterHelper.routes,
-    );
+    Get.find<CartController>().getCardData();
+    return GetBuilder<PopularProductController>(builder: (_) {
+      return GetBuilder<RecommendedProductController>(builder: (_)
+      {
+        return GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          // home: MainFoodPage(),
+          initialRoute: RouterHelper.getSplashPage(),
+          getPages: RouterHelper.routes,
+        );
+      });
+    });
+
   }
 }
